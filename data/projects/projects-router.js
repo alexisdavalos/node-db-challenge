@@ -42,26 +42,6 @@ router.post('/', (req, res) => {
   });
 });
 
-router.post('/:id/steps', (req, res) => {
-  const stepData = req.body;
-  const { id } = req.params; 
-
-  Projects.findById(id)
-  .then(project => {
-    if (project) {
-      Projects.addStep(stepData, id)
-      .then(step => {
-        res.status(201).json(step);
-      })
-    } else {
-      res.status(404).json({ message: 'Could not find project with given id.' })
-    }
-  })
-  .catch (err => {
-    res.status(500).json({ message: 'Failed to create new step' });
-  });
-});
-
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;

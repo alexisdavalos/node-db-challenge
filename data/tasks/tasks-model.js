@@ -9,26 +9,26 @@ module.exports ={
 }
 
 function find() {
-    return db('projects');
+    return db('tasks');
 }
 function findById(id){
-    return db('projects')
+    return db('tasks')
     .where({id})
     .first()
 }
 //ASYNC RETURNS OBJECTS AFTER DB FETCH
-async function add (project) {
-    const [id] = await db('projects').insert(project) //inserts new data and abstracts the id
-    return db('projects').where({id}).first() //return db call for row that matches the abstracted id
+async function add (task) {
+    const [id] = await db('tasks').insert(task) //inserts new data and abstracts the id
+    return db('tasks').where({id}).first() //return db call for row that matches the abstracted id
 }
 
 function remove(id){
-    return db('projects')
+    return db('tasks')
     .where({id})
     .del();
 }
 function update(changes, id){
-    return db('projects')
+    return db('tasks')
     .where({id})
     .update(changes);
 }
