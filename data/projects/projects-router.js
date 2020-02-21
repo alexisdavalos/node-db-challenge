@@ -17,12 +17,45 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const { id } = req.params;
-
+const { id } = req.params;
+let tasks = [];
+let resources = [];
+const setTasks = (new_tasks) =>{
+    return tasks = new_tasks;
+}
+const setRes = (new_res) =>{
+    return resources = new_res
+}
   Projects.findById(id)
-  .then(project => {
+  .then(async project => {
     if (project) {
-      res.json(project);
+    //fetch tasks and set to state
+     await Tasks.findByProjectId(project.id).then(async tasks =>{
+        if(tasks){
+            await setTasks(tasks) //sets tasks to state
+        }else{
+            res.status(200).json(project);
+        }
+    }).catch(err => {
+        res.status(500).json({ message: 'Failed to get Project Tasks' });
+    }); //End Find Tasks
+    console.log('fetching resources...')
+    //fetch resources and set to state
+    await Resources.findByProjectId(project.id).then(async resources =>{
+        console.log('inside resources')
+        if(resources){
+            await setRes(resources)
+        }else{
+            res.status(200).json({...project, tasks: tasks, resources: 'no resources available'});
+        }
+    }).catch(err => {
+        res.status(500).json({ message: 'Failed to get Project resources' });
+    }); //End Find Tasks
+    
+    console.log('tasks in state:', tasks)
+    console.log('resources in state:', resources)
+    console.log(project.id)
+    res.status(200).json({...project, tasks: tasks, resources: resources});
     } else {
       res.status(404).json({ message: 'Could not find project with given id.' })
     }

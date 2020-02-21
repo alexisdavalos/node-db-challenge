@@ -4,6 +4,7 @@ module.exports ={
     find,
     findById,
     add,
+    findByProjectId,
     remove,
     update
 }
@@ -15,6 +16,11 @@ function findById(id){
     return db('resources')
     .where({id})
     .first()
+}
+function findByProjectId(project_id){
+    return db('resources')
+    .join('projects', 'resources.project_id', 'projects.id')
+    .where('resources.project_id', project_id)
 }
 //ASYNC RETURNS OBJECTS AFTER DB FETCH
 async function add (resource) {

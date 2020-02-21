@@ -4,12 +4,18 @@ module.exports ={
     find,
     findById,
     add,
+    findByProjectId,
     remove,
     update
 }
 
 function find() {
     return db('tasks');
+}
+function findByProjectId(project_id){
+    return db('tasks')
+    .join('projects', 'tasks.project_id', 'projects.id')
+    .where('tasks.project_id', project_id)
 }
 function findById(id){
     return db('tasks')
