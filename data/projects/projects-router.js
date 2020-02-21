@@ -42,7 +42,6 @@ const setRes = (new_res) =>{
     console.log('fetching resources...')
     //fetch resources and set to state
     await Resources.findByProjectId(project.id).then(async resources =>{
-        console.log('inside resources')
         if(resources){
             await setRes(resources)
         }else{
@@ -54,7 +53,6 @@ const setRes = (new_res) =>{
     
     console.log('tasks in state:', tasks)
     console.log('resources in state:', resources)
-    console.log(project.id)
     res.status(200).json({...project, tasks: tasks, resources: resources});
     } else {
       res.status(404).json({ message: 'Could not find project with given id.' })
