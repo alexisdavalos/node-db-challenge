@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 
 //Routers
 const ProjectRouter = require('./data/projects/projects-router.js');
@@ -10,6 +11,7 @@ const server = express();
 
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 
 //Routes
 server.use('/api/projects', ProjectRouter)

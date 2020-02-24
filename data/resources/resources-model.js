@@ -18,9 +18,10 @@ function findById(id){
     .first()
 }
 function findByProjectId(project_id){
-    return db('resources')
-    .join('projects', 'resources.project_id', 'projects.id')
-    .where('resources.project_id', project_id)
+    return db('resources as r')
+    .join('projects', 'r.project_id', 'projects.id')
+    .select('r.id','r.name','r.description')
+    .where('r.project_id', project_id)
 }
 //ASYNC RETURNS OBJECTS AFTER DB FETCH
 async function add (resource) {
